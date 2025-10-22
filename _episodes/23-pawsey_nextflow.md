@@ -18,8 +18,20 @@ module load module load nextflow/24.10.0 #TODO: test this (prefer not conda inst
 module load singularity/4.1.0-slurm
 ```
 
+### Test required modules
+
+To determine if the Nextflow and Singularity modules has been successfully loaded, you can run the following.
+
+```bash
+module list
+```
+
+This command displays all currently loaded modules. If `nextflow/24.10.0` and `singularity/4.1.0-slurm` appears in the output,
+the module has been successfully loaded into your environment.
+
+
 ### Nextflow workflow execution
-During workflow execution Nextflow will pull the neccessary containers from a hosted repository.
+During workflow execution Nextflow will pull the necessary containers from a hosted repository.
 
 ```bash
 nextflow run nf-core/hello
