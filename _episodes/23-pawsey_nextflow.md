@@ -41,17 +41,19 @@ keypoints:
 Today we’ll run a simple Nextflow workflow developed to demonstrate a [nextflow template](https://github.com/Sydney-Informatics-Hub/template-nf) at the university of Sydney. 
 This demo workflow shows basic Nextflow functionality through a simple genomics workflow.
 
-> ## Demo Scenario (Brief)
+> ## Demo Scenario
 > This demo simulates the start of a larger workflow where samples need to be grouped by sequencing platform for downstream processing. It uses a single samplesheet (assets/samplesheet.csv) with sample names, FASTQ paths, and platform info (e.g., Illumina or PacBio).
 > The workflow runs three processes:
 > 
 > - check_input – Validates the samplesheet using a custom script in bin/.
 > - group_samples – Splits samples into platform-specific sheets.
-> - generate_report – Summarizes each group in parallel.
+> - generate_report – Summarises each group in parallel.
 > 
-> [TODO] add figure of workflow
+>  <p align="center">
+>  <img src="/assets/img/abacbs_demo_workflow.png" alt="demo_workflow" width="1000"/>
+>  </p>
 > 
-> 
+> In this figure data is passed through three processes (coloured pink, green and blue) and data is passed through channels represented by arrows. All intermediary files and results end up in the publishDir
 > Outputs include validated and grouped samplesheets plus summary reports, illustrating how Nextflow handles input validation, data splitting, and parallel execution.
 {: .callout}
 
@@ -106,6 +108,8 @@ you should see something like this
 
 Pawsey has pre-installed Nextflow and Singularity which can be loaded in your user environment using
 
+[TODO] Add figure to tie together the functional parts of a standard nextflow run command and how they interact with the HPC/scheduler
+
 ```
 module load nextflow/24.10.0 singularity/4.1.0-slurm
 ```
@@ -116,6 +120,7 @@ run the pipeline
 nextflow run main.nf --input assets/samplesheet.csv
 ```
 
+[TODO] explore output and workdir
 
 > ## Containers in Nextflow Workflows
 > Our demo doesn’t use containers, but they are one of the most effective ways to manage software in workflow development, sespecially with Nextflow.
