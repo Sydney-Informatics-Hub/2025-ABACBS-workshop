@@ -26,8 +26,8 @@ keypoints:
 >
 > **Why Use Nextflow?**
 >
-> - **Portable**: Same workflow can run on your laptop or HPC Setonix (Slurm).
-> - **Parallel execution**: Automatically schedules tasks across available compute nodes.
+> - **Portable**: Same workflow can run on your laptop or HPC systems like Setonix (Slurm).
+> - **Parallel execution**: Automatically schedules tasks across available compute nodes, reducing manual efforts and speeding up work.
 > - **Reproducibility**: Uses containers or environments for consistent results.
 > - **Integration with HPC schedulers**: Supports Slurm, Pawsey job scheduling system.
 >
@@ -59,6 +59,8 @@ Today we’ll run a shortened Nextflow demo based on a [nextflow template](https
 > 
 > In this figure data is passed through three processes (coloured pink, green and blue) and data is passed through channels represented by arrows. All intermediary files and results end up in the publishDir
 > Outputs include validated and grouped samplesheets plus summary reports, illustrating how Nextflow handles input validation, data splitting, and parallel execution.
+>
+> **Note: The takeaway of this demo is not what the workflow does but how nextflow is designed to support its automation**
 {: .callout}
 
 
@@ -68,7 +70,7 @@ Use git to clone the workflow code base to your working directory:
 git clone https://github.com/Sydney-Informatics-Hub/template-nf-demo
 ```
 
-now move into the cloned directory and look at the file structure
+Next, move into the cloned directory and look at the file structure
 
 ```
 cd template-nf-demo/
@@ -99,7 +101,7 @@ you should see something like this
 └── README.md
 ```
 
->##  Files and Directories overview
+>##  Common Nextflow Files and Directories
 >The template’s code repository is organised into a number of files and directories. Hidden directories prefixed with a . can be ignored for now, they are useful for configuring git and github and aren’t related to running your workflow. The code used in the demo workflow are:
 > 
 > - **main.nf**: the primary execution script, it contains workflow structure, processes, and channels. i.e. It defines your processes (the individual analysis steps) and how data flows between them.
@@ -123,9 +125,9 @@ The image is divided into two main sections:
 2. Bottom section – Represents the execution layer, including processes, channels, parameters, and data flow.
 
 - Processes are modular, isolated tasks executed by an executor (local or HPC).
+- Work directory stores intermediate results for caching and reproducibility.
 - Channels connect processes.
 - Parameters & Profiles: Enable flexible configuration and reproducibility.
-- Work directory stores intermediate results for caching and reproducibility.
 - Shared filesystem: Required for HPC execution and data staging.
 
 Setonix has pre-installed modules that can be loaded by specifying the module name and version.
@@ -149,9 +151,11 @@ nextflow run main.nf --input assets/samplesheet.csv
 >  <img src="/assets/img/abacbs_stdout_nextflow_run.png" alt="demo_workflow" width="600"/>
 >  </p>
 >
-> In this example, the executor is local (chosen to avoid queue times for the demo). Using the `--profile` parameter, you could switch to Setonix. Under Tasks, you’ll see the three processes (colour matched to our demo scenario figure) from our demo, with the final task running two jobs in parallel.
+> In this example, the executor is local (chosen to avoid queue times for the demo). Using the `--profile` parameter, you could switch to Setonix. 
+>
+> Under Tasks, you’ll see the three processes (colour matched to our demo scenario figure) from our demo, with the final task running two jobs in parallel.
 > 
-> After running the workflow, two key directories are made:
+> After running the workflow, several key directories and files are made:
 >
 > - **The `work/` directory:** As each task is run, a unique sub-directory is created in the work directory. These directories house temporary files and various command logs created by a process. **We can find all information regarding this task that we need to troubleshoot a failed task**.
 > Each task in a Nextflow pipeline is assigned a unique identifier based on the input data, parameters, and code used. The output of the task is then saved (cached) in a uniquely named subdirectory within the work directory.
@@ -203,6 +207,12 @@ nextflow run main.nf --input assets/samplesheet.csv
 > └── samplesheet_pacbio.csv
 > ```
 > All expected files have been produced and saved in our result directory.
+>
+> - **The `.nextflow/` directory**
+> This directory contains a cache subdirectory to store cached data such as downloaded files and can be used to speed up subsequent pipeline runs. It also contains a history file which contains a record of pipeline executions including run time, the unique run name, and command line arguments used.
+>
+> - **The `.nextflow.log` file** 
+> This directory contains a cache subdirectory to store cached data such as downloaded files and can be used to speed up subsequent pipeline runs. It also contains a history file which contains a record of pipeline executions including run time, the unique run name, and command line arguments used.
 >
 {: .solution }
 
