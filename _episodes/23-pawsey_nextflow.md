@@ -153,7 +153,7 @@ nextflow run main.nf --input assets/samplesheet.csv
 >
 > In this example, the executor is local (chosen to avoid queue times for the demo). Using the `--profile` parameter, you could switch to Setonix. 
 >
-> Under Tasks, you’ll see the three processes (colour matched to our demo scenario figure) from our demo, with the final task running two jobs in parallel.
+> Under Tasks, you’ll see the three processes (colour matched to our demo scenario figure), with the final task running two jobs in parallel. Each ran successfully, as shown by the tick.
 > 
 > After running the workflow, several key directories and files are made:
 >
