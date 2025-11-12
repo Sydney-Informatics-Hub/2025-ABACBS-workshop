@@ -125,8 +125,9 @@ The image is divided into two main sections:
 2. Bottom section – Represents the execution layer, including processes, channels, parameters, and data flow.
 
 - Processes are modular, isolated tasks executed by an executor (local or HPC).
-- Work directory stores intermediate results for caching and reproducibility.
+- Work directory stores intermediate results for caching and reproducibility. Every process (`check_input`, `group_samples`, `generate_report`) runs in its own isolated subdirectory inside the `work/` directory.
 - Channels connect processes.
+- When a process finishes successfully, Nextflow can optionally "publish" its output files to a defined directory (e.g., `params.outdir` or `Results/`)
 - Parameters & Profiles: Enable flexible configuration and reproducibility.
 - Shared filesystem: Required for HPC execution and data staging.
 
@@ -158,10 +159,10 @@ nextflow run main.nf --input assets/samplesheet.csv
 > After running the workflow, several key directories and files are made:
 >
 > - **The `work/` directory:** As each task is run, a unique sub-directory is created in the work directory. These directories house temporary files and various command logs created by a process. **We can find all information regarding this task that we need to troubleshoot a failed task**.
-> Each task in a Nextflow pipeline is assigned a unique identifier based on the input data, parameters, and code used. The output of the task is then saved (cached) in a uniquely named subdirectory within the work directory.
+> Each task in a Nextflow pipeline is assigned a unique identifier (captured in the square brackets in the stdout) based on the input data, parameters, and code used. The output of the task is then saved (cached) in a uniquely named subdirectory within the work directory.
 > Nextflow reuses the cached output instead of rerunning the process when supplied the `-resume` flag. This is especially useful when working on large datasets or complex workflows where re-running every step can be time-consuming and computationally expensive.
 >
->Review the directory structure with
+> To Review the directory structure run:
 > ```bash
 > tree work/
 > ```
