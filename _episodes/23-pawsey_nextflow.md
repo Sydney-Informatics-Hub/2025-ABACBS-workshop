@@ -3,12 +3,17 @@ title: "Run NextFlow pipeline on Setonix"
 teaching: 0
 exercises: 5
 questions:
+    - What are the main components of a Nextflow workflow?
+    - How does Nextflow run on Setonix?
 objectives:
-  - Run NextFlow pipeline on Setonix
+    - Understand how Nextflow manages workflows using processes, channels, and configurations.
+    - Set up and run a Nextflow pipeline on Setonix, including loading necessary modules and executing a simple workflow.
+    - Inspect and interpret workflow outputs, including `work/` and `results/` directories.
 keypoints:
-  - Workflows are pulled to the $HOME directory
-  - Intermediate work files are available in work/
-  - Required images are pulled to work directory but can be stored in a shared cache to avoid duplication
+    - Nextflow pipelines are modular and reproducible, combining processes (tasks), channels (data flow), and configurations (resources, parameters).
+    - Setonix supports Nextflow execution through Slurm, with pre-installed modules for easy setup.
+    - Intermediate files are stored in the `work/` directory, enabling caching and the `-resume` option for efficient reruns.
+    - Container images (Singularity) can be cached in a shared directory to avoid duplication and speed up workflows.
 ---
 
 > ## Disclaimer
